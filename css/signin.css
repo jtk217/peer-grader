@@ -14,7 +14,7 @@ body {
 }
 
 #logo {
-    height: 84px;
+    height: 82px;
     width: 90px;
     margin-top: 75px;
     margin-bottom: 25px;
@@ -165,4 +165,29 @@ div.form-group.box  {
     display: inline-block;
 }
 
+@media screen and (max-width: 500px) {
+    form, #incorrect, .box {
+        width: 200px;
+    }
+
+    #password {
+        width: 117px;
+    }
+
+    .total {
+        width: auto;
+        margin-right: 0;
+        margin-left: 0;
+    }
+
+    h1 {
+        font-size: 19pt;
+    }
+
+    #logo {
+        width: 55px;
+        height: 50px;
+        margin-top: 25px;
+    }
+}
 
