@@ -28,7 +28,7 @@ $(document).ready(function() {
     });
 });
 
-angular.module('PeerReviewApp', ['ui.bootstrap'])
+angular.module('PeerReviewApp', [])
     .config(function($httpProvider) {
         $httpProvider.defaults.headers.common['X-Parse-Application-Id'] = 'JzXjelfFGeUVJm5t5mPd8UaCt7OB7hIaIQk51o5p';
         $httpProvider.defaults.headers.common['X-Parse-REST-API-Key'] = 'SYbBvrOCTgVuVQMVmFCfYmAXswZvdHBdZd4XnjeJ';
@@ -42,7 +42,10 @@ angular.module('PeerReviewApp', ['ui.bootstrap'])
         //sending a DELETE to this URL + '/' + group.objectId will delete an existing group
         var groupsURL = 'https://api.parse.com/1/classes/groups';
         var usersURL = 'https://api.parse.com/1/classes/users';
+        var membersURL = 'https://api.parse.com/1/classes/members';
         var classes = [];
+        $scope.users = [];
+        $scope.members = [];
 
         $scope.refreshGroups = function() {
             $scope.loading = true;
@@ -60,26 +63,32 @@ angular.module('PeerReviewApp', ['ui.bootstrap'])
 
         $scope.fillClassOptions = function () {
         	$scope.loading = true;
-        	$http.get(usersURL)
+        	$http.get(membersURL)
                 .success(function(responseData) {
-                    //NEEDS REVISION, FILLS CLASS ARRAY WITH LIST OF CLASSES BY STUDENTS
                     $scope.users = responseData.results;
+                    console.log($scope.users);
                     for (idx = 0; idx < $scope.users.length; ++idx) {
-                    	classes.push(users[idx].className);
+                    	classes.push($scope.users[idx].classNameX);
                     }
-
+                    console.log(classes);
+                    $scope.classesList = [];
+                    $.each(classes, function (index, value) {
+                           if($.inArray(value, $scope.classesList) === -1) $scope.classesList.push(value);
+                    });
 
                     var newGroupForm = $('#newGroupForm');
-					var classDropdown = newGroupForm.elements['class'];
+					var classDropdown = $('#classSelectors');
 					var classOption;
 					var idx;
 					//Fills in classes to the select box in new group form
-					for (idx = 0; idx < classes.length; ++idx) {
+					for (idx = 0; idx < $scope.classesList.length; ++idx) {
 						classOption = document.createElement('option');
-						classOption.innerHTML = classes[idx];
-						classOption.setAttribute("value", classes[idx]);
-						classDropdown.appendChild(classOption);
+						classOption.innerHTML = $scope.classesList[idx];
+						classOption.setAttribute("value", $scope.classesList[idx]);
+                        console.log(classOption);
+                        classDropdown.append(classOption);
 					}
+                    console.log($scope.classesList);
                 })
                 .error(function(err) {
                     console.log(err);
@@ -87,9 +96,31 @@ angular.module('PeerReviewApp', ['ui.bootstrap'])
                 .finally(function() {
                     $scope.loading = false;
                 });
-        }
-        //call refreshgroups() to get the initial set of groups on page load
+        }; //fillClassOptions()
+
+        //call refreshGroups() to get the initial set of groups on page load for View Groups functionality
         $scope.refreshGroups();
+
+        //call fillClassOptions to get the dropdown list for Create Groups functionality
+        $scope.fillClassOptions();
+
+        //fills groupMembers grid
+           $('#classSelectors').bind('change', function() {
+               $('#groupMembersGrid').fadeIn();
+               $.ajax({
+                  type: "GET",
+                  url: usersURL,
+                  data: {
+                      class : $('#classSelectors').val(),
+                      grouped : false
+                  },
+                  //success logic creates table in html, can parse return the full table html or do we need to make it
+                  //with specific values from a returned array?
+                   success: function(resultsArray) {
+                    $scope.members = resultsArray;
+                  }
+              });
+           });
 
         //initialize a new group object on the scope for the new group form
         $scope.newGroup = null;
@@ -135,14 +166,14 @@ angular.module('PeerReviewApp', ['ui.bootstrap'])
 
 /* To do:
 
-create algorithm to get all classes that users are in and push them into classes array without duplicates
+[x]  create algorithm to get all classes that users are in and push them into classes array without duplicates
 
-fill a table with users based off them being in the class selected and not being in a group
-	- make individual users in that table have a checkbox where they can be mass selected
+[]  fill a table with users based off them being in the class selected and not being in a group
+	- make individual users in that table have a checkbox where multiple can be selected for group creation
 
-make add group button call addGroup function
+[x?]  make add group button call addGroup function
 
-make view groups page work
+[]  make view groups page work
 	- group rows clickable to pop up with their peer-review grades?
 	- color coded based on whether or not they have submitted peer-review grades?
 
