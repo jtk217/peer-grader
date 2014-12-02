@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Eval. Instructor Page</title>
+
+        <link rel="shortcut icon" href="img/favicon.ico">
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/animations.css">
+        <link rel="stylesheet" href="css/instructor.css">
+
+        <script src="lib/angular-1.3.1/angular.js"></script>
+    </head>
+
+    <body>
+        <main ng-app="PeerReviewApp" ng-controller="GroupsController">
+            <section class="sidebar">
+                <div class="activitySidebar">
+                    <div class="activityCreate">
+                        <div class="activityIconSidebar">+</div>
+                        <p class="activityDescription">Create Groups</p>
+                    </div>
+                    <div id="middleline"></div>
+                    <div class="activityView">
+                        <div class="activityIconSidebar">%</div>
+                        <p class="activityDescription">View Groups</p>
+                    </div>
+                </div>
+            </section>
+            <section class="total">
+                <div class="activitySelectWrapper">
+                    <div class="activityCreate">
+                        <div class="activityIcon">+</div>
+                        <p class="activityDescription">Create Groups</p>
+                    </div>
+                    <div id="middleline"></div>
+                    <div class="activityView">
+                        <div class="activityIcon">%</div>
+                        <p class="activityDescription">View Groups</p>
+                    </div>
+                </div>
+
+                <div class="createActivity">
+                    <h1>Create Groups</h1>
+                    <p>Here you can create peer-review groups from a list of students registered for your course.</p>
+                    <section>
+                        <h2>New Group</h2>
+                        <form id="newGroupForm" ng-submit="addGroup(newGroup)">
+                            <div class="form-group">
+                                <label for="group-title">Group Name</label>
+                                <input type="text" id="group-title" class="form-control"
+                                       placeholder="title of new group" ng-model="newGroup.title"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="group-class">Class</label>
+                                <select name="class" ng-model="newGroup.class">
+                                    <option value="" selected disabled>Class</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <!--members check box showing ungrouped members here -->
+                            </div>
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary" ng-disabled="inserting">Add Group</button>
+                                <img src="img/loader.gif" alt="loading animation" ng-if="inserting"/>
+                            </div>
+                        </form>
+                    </section>
+
+                </div>
+
+                <div class="viewActivity">
+                    <h1>View Groups</h1>
+                    <p>Here you can view already created peer-review groups for your course.</p>
+                
+                    <section>
+                        <h2>Current Groups</h2>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Group</th>
+                                    <th>Class</th>
+                                    <th>Members</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="group in groups">
+                                    <td>{{group.title}}</td>
+                                    <td>{{group.class}}</td>
+                                    <td>{{group.members}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+            </section>
+        </main>
+
+        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.11.2/jquery-ui.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+        <script src="js/instructor.js"></script>
+    </body>
+</html>
