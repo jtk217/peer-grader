@@ -1,6 +1,9 @@
 
 "use strict";
 
+var image = new Image();
+image.src = "img/loader.GIF";
+
 $(document).ready(function() {
     var signin = $('#signin');
     signin.submit(onSubmit);
@@ -14,6 +17,8 @@ function onSubmit(eventObject) {
     try {
         var users = [];
 
+        $("#loader").show();
+        $('#loader').attr('src', image.src);
         $.ajax({
             url: 'https://api.parse.com/1/classes/users',
             headers: {
@@ -29,8 +34,8 @@ function onSubmit(eventObject) {
                 var idx;
                 for (var idx = 0; idx < users.length; ++idx) {
                     var user = users[idx]
-                    console.log(user.userName);
-                    console.log(user.password);
+                    //console.log(user.userName);
+                    //console.log(user.password);
                     if (form.elements['userName'].value != user.userName || form.elements['password'].value != user.password) {
                         validUser = false;
                     }
@@ -56,6 +61,12 @@ function onSubmit(eventObject) {
                         console.log('redirect to instructor page');
                     }
                 }
+            },
+            error: function(err) {
+                console.log(err);
+            },
+            complete: function() {
+                $('#loader').hide();
             }
         });
     }

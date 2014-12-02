@@ -5,6 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Eval</title>
 
+        <link rel="shortcut icon" href="img/favicon.ico">
+
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/animations.css">
         <link rel="stylesheet" href="css/signin.css">
@@ -14,7 +16,7 @@
 
     <body class="slideDown">
 
-        <div class="buffer">
+        <div class="image">
             <img id="logo" src="img/eval-logo.png" alt="eval logo" class="pull-top"/>
         </div>
 
@@ -36,6 +38,10 @@
             </form>
 
             <div id="incorrect" class="alert alert-danger" role="alert">Incorrect user name and password combination. Please try again.</div>
+            <div class="image" id="loader-div">
+                <img id="loader" src="img/loader.GIF" alt="loader"/>
+            </div>
+
         </div>
 
         <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
