@@ -66,11 +66,9 @@ angular.module('PeerReviewApp', [])
         	$http.get(membersURL)
                 .success(function(responseData) {
                     $scope.users = responseData.results;
-                    console.log($scope.users);
                     for (idx = 0; idx < $scope.users.length; ++idx) {
                     	classes.push($scope.users[idx].classNameX);
                     }
-                    console.log(classes);
                     $scope.classesList = [];
                     $.each(classes, function (index, value) {
                            if($.inArray(value, $scope.classesList) === -1) $scope.classesList.push(value);
@@ -85,10 +83,8 @@ angular.module('PeerReviewApp', [])
 						classOption = document.createElement('option');
 						classOption.innerHTML = $scope.classesList[idx];
 						classOption.setAttribute("value", $scope.classesList[idx]);
-                        console.log(classOption);
                         classDropdown.append(classOption);
 					}
-                    console.log($scope.classesList);
                 })
                 .error(function(err) {
                     console.log(err);
@@ -107,9 +103,22 @@ angular.module('PeerReviewApp', [])
         //fills groupMembers grid
            $('#classSelectors').bind('change', function() {
                $('#groupMembersGrid').fadeIn();
-               $.ajax({
+               $http.get(membersURL + '?where={"grouped": false, "classNameX": "' + $('#classSelectors').val() + '"}')
+                   .success(function (data) {
+                       $scope.members = data.results;
+                   })
+                   .error(function (err) {
+                       console.log(err);
+                   });
+           });
+
+               /*{
                   type: "GET",
-                  url: usersURL,
+                  url: membersURL + '?where',
+                  headers: {
+                      'X-Parse-Application-Id': 'JzXjelfFGeUVJm5t5mPd8UaCt7OB7hIaIQk51o5p',
+                      'X-Parse-REST-API-Key': 'SYbBvrOCTgVuVQMVmFCfYmAXswZvdHBdZd4XnjeJ'
+                  },
                   data: {
                       class : $('#classSelectors').val(),
                       grouped : false
@@ -118,15 +127,21 @@ angular.module('PeerReviewApp', [])
                   //with specific values from a returned array?
                    success: function(resultsArray) {
                     $scope.members = resultsArray;
-                  }
-              });
-           });
+                  }*/
 
         //initialize a new group object on the scope for the new group form
-        $scope.newGroup = null;
+        $scope.newGroup = '';
+        $scope.newGroup.members = '';
 
         $scope.addGroup = function(group) {
             $scope.inserting = true;
+            var index = 0;
+            var checkedArray = [];
+            //create array of checked values
+            $("#groupMembersGrid input:checkbox:checked").each(function(){ checkedArray.push(" " + this.className); });
+            console.log(checkedArray);
+            //for number of checked, put into array
+            $scope.newGroup.members = checkedArray.toString();
             $http.post(groupsURL, group)
                 .success(function(responseData) {
                     //Parse will return the new objectId in the response data
@@ -168,14 +183,14 @@ angular.module('PeerReviewApp', [])
 
 [x]  create algorithm to get all classes that users are in and push them into classes array without duplicates
 
-[]  fill a table with users based off them being in the class selected and not being in a group
-	- make individual users in that table have a checkbox where multiple can be selected for group creation
+[x]  fill a table with users based off them being in the class selected and not being in a group
+	[x] - make individual users in that table have a checkbox where multiple can be selected for group creation
 
-[x?]  make add group button call addGroup function
+[x]  make add group button call addGroup function
 
-[]  make view groups page work
-	- group rows clickable to pop up with their peer-review grades?
-	- color coded based on whether or not they have submitted peer-review grades?
+[x]  make view groups page work
+	[] - group rows clickable to pop up with their peer-review grades?
+	[] - color coded based on whether or not they have submitted peer-review grades?
 
 
 */
