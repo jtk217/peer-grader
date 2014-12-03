@@ -26,6 +26,30 @@ $(document).ready(function() {
         $(".createActivity").fadeOut();
         $(".viewActivity").delay(400).fadeIn();
     });
+
+    $('#logo').click(function() {
+        $(".createActivity").hide();
+        $(".viewActivity").hide();
+        $(".mainActivity").show();
+        $('#view').attr('class', 'nav-item');
+        $('#create').attr('class', 'nav-item');
+    });
+
+    $('.view').click(function() {
+        $(".createActivity").hide();
+        $(".mainActivity").hide();
+        $(".viewActivity").show();
+        $('#view').attr('class', 'nav-item current');
+        $('#create').attr('class', 'nav-item');
+    });
+
+    $('.create').click(function() {
+        $(".viewActivity").hide();
+        $(".mainActivity").hide();
+        $(".createActivity").show();
+        $('#view').attr('class', 'nav-item');
+        $('#create').attr('class', 'nav-item current');
+    });
 });
 
 angular.module('PeerReviewApp', [])
@@ -46,6 +70,14 @@ angular.module('PeerReviewApp', [])
         var classes = [];
         $scope.users = [];
         $scope.members = [];
+
+        $scope.showView = function() {
+
+        };
+
+        $scope.showCreate = function() {
+
+        };
 
         $scope.refreshGroups = function() {
             $scope.loading = true;
@@ -131,7 +163,7 @@ angular.module('PeerReviewApp', [])
 
         //initialize a new group object on the scope for the new group form
         $scope.newGroup = '';
-        $scope.newGroup.members = '';
+       // $scope.newGroup.members = '';
 
         $scope.addGroup = function(group) {
             $scope.inserting = true;
