@@ -1,0 +1,48 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,600);
+
+body {
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, sans-serif;
+    color: darkslategray;
+}
+.card {
+    margin: 0;
+    padding: 0;
+}
+
+.cards {
+    padding: 10px;
+    margin-bottom: 0.5em;
+    margin-left: 5%;
+    background-color: #EEE;
+    clear: both;
+    font-size: 20px;
+    overflow: auto;
+}
+.glyphicon {
+    margin-left: auto;
+    margin-top: 5px;
+}
+#review-submission {
+    background-color: mediumseagreen;
+    border-color: mediumseagreen;
+    margin-left: 10px;
+}
+#members {
+    padding: 10px;
+    margin-bottom: 0.5em;
+    margin-top: 10px;
+    margin-left: 1%;
+    border: 3px solid mediumseagreen;
+    border-radius: 5px;
+    clear: both;
+    font-size: 20px;
+}
+.cards:hover {
+    border-bottom: solid 5px mediumseagreen;
+    border-radius: 5px;
+}
+#pageHeader {
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    border-bottom: 5px solid mediumseagreen;
+}
