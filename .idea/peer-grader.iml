@@ -4,7 +4,13 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+<<<<<<< HEAD
     <orderEntry type="library" name="ui-bootstrap-tpls" level="application" />
     <orderEntry type="library" name="bootstrap" level="application" />
   </component>
 </module>
+=======
+  </component>
+</module>
+
+>>>>>>> 02a6ddbf57ee9f6536db2c17821544b9c197be6c
