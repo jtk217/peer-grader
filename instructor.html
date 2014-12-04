@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Eval. Instructor Page</title>
+
+        <link rel="shortcut icon" href="img/favicon.ico">
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/animations.css">
+        <link rel="stylesheet" href="css/instructor.css">
+
+        <script src="lib/angular-1.3.1/angular.js"></script>
+    </head>
+
+    <body>
+        <main ng-app="PeerReviewApp" ng-controller="GroupsController">
+            <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#">
+                            <img id="logo" alt="Brand" src="img/eval-logo2.png">
+                        </a>
+                    </div>
+
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item create" id="create"><a href="">Create</a></li>
+                        <li class="nav-item view" id="view"><a href="">View</a></li>
+                    </ul>
+
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Other <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#">Account</a></li>
+                                    <li><a href="#">Help</a></li>
+                                    <li><a href="#">About</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="index.html">Sign Out</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div><!-- /.navbar-collapse -->
+                </div><!-- /.container-fluid -->
+            </nav>
+                </div>
+            </nav>
+            <!--<section class="sidebar">-->
+                <!--<div class="activitySidebar">-->
+                    <!--<div class="activityCreate">-->
+                        <!--<div class="activityIconSidebar">+</div>-->
+                        <!--<p class="activityDescription">Create Groups</p>-->
+                    <!--</div>-->
+                    <!--<div id="middleline"></div>-->
+                    <!--<div class="activityView">-->
+                        <!--<div class="activityIconSidebar">%</div>-->
+                        <!--<p class="activityDescription">View Groups</p>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</section>-->
+
+
+            <section class="total">
+                <div class="createActivity">
+                    <section>
+                        <h2>New Group</h2>
+                        <form id="newGroupForm" ng-submit="addGroup(newGroup)">
+                            <div class="form-group">
+                                <label for="group-class">Class</label>
+                                <select id= "classSelectors" name="class" ng-model="newGroup.class">
+                                    <!-- fill in options --><option value="">Class</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="group-title">Group Name</label>
+                                <input type="text" id="group-title" class="form-control"
+                                       placeholder="title of new group" ng-model="newGroup.title"/>
+                            </div>
+
+                            <div class="form-group" id="groupMembersGrid">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Ungrouped Members</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="member in members">
+                                            <td>{{member.studentName}} <input type="checkbox" class="{{member.studentName}}"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary" ng-disabled="inserting">Create Group</button>
+                                <img src="img/loader.gif" alt="loading animation" ng-if="inserting"/>
+                            </div>
+                        </form>
+                    </section>
+                </div>
+
+                <div class="viewActivity">
+                    <section>
+                        <h2>Current Groups</h2>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Group</th>
+                                    <th>Class</th>
+                                    <th>Members</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <div>
+                                <tr ng-class="{'complete': '{{group.class}}' == 'BIO 180', 'incomplete': '{{group.class}}' == 'MATH 125', 'semi': '{{group.class}}' == 'INFO 343'}" ng-repeat="group in groups"  data-toggle="modal" data-target="#myModal" ng-click="">
+                                    <td>{{group.title}}</td>
+                                    <td>{{group.class}}</td>
+                                    <td>{{group.members}}</td>
+                                </tr>
+                            </div>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+
+
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <h4 class="modal-title" id="myModalLabel">Eval.</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>Average rating for Jacob: 4.3 (incomplete)</p>
+                                <p>Average rating for Morya: 4.4</p>
+                                <p>Average rating for Sean: 4.6</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mainActivity">
+                    <h1>This is Eval.</h1>
+                    <p>It's simple:<br/>You can either create a new project group<br/>or view current groups.<br/><br/>Let's get started.</p>
+
+                    <section class="buttons">
+                        <div class="createButton create">
+                            <p><br/>+</p>
+                            <p><b>Create</b></p>
+                        </div>
+                        <div class="viewButton view">
+                            <p><br/>%</p>
+                            <p><b>View</b></p>
+                        </div>
+                    </section>
+                </div>
+            </section>
+        </main>
+
+        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.11.2/jquery-ui.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+        <script src="js/instructor.js"></script>
+    </body>
+</html>
