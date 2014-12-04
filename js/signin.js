@@ -58,7 +58,7 @@ function onSubmit(eventObject) {
                         console.log('redirect to student page');
                     }
                     else if (matchedUser.role == 'instructor') {
-                        console.log('redirect to instructor page');
+                        window.location.replace('instructor.html')
                     }
                 }
             },
@@ -75,12 +75,11 @@ function onSubmit(eventObject) {
         valid = false;
     }
 
-    // TODO: REMOVE
-    valid = false;
-
     if (!valid && eventObject.preventDefault) {
         eventObject.preventDefault();
     }
+
+    valid = false;
 
     eventObject.returnValue = valid;
 
