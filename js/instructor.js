@@ -59,11 +59,6 @@ angular.module('PeerReviewApp', [])
     })
 
     .controller('GroupsController', function($scope, $http) {
-        //this is the base URL for all group objects managed by your application
-        //requesting this with a GET will get all groups objects
-        //sending a POST to this will insert a new group object
-        //sending a PUT to this URL + '/' + group.objectId will update an existing group
-        //sending a DELETE to this URL + '/' + group.objectId will delete an existing group
         var groupsURL = 'https://api.parse.com/1/classes/groups';
         var usersURL = 'https://api.parse.com/1/classes/users';
         var membersURL = 'https://api.parse.com/1/classes/members';
@@ -101,6 +96,7 @@ angular.module('PeerReviewApp', [])
                     for (idx = 0; idx < $scope.users.length; ++idx) {
                     	classes.push($scope.users[idx].classNameX);
                     }
+
                     $scope.classesList = [];
                     $.each(classes, function (index, value) {
                            if($.inArray(value, $scope.classesList) === -1) $scope.classesList.push(value);
@@ -144,23 +140,6 @@ angular.module('PeerReviewApp', [])
                    });
            });
 
-               /*{
-                  type: "GET",
-                  url: membersURL + '?where',
-                  headers: {
-                      'X-Parse-Application-Id': 'JzXjelfFGeUVJm5t5mPd8UaCt7OB7hIaIQk51o5p',
-                      'X-Parse-REST-API-Key': 'SYbBvrOCTgVuVQMVmFCfYmAXswZvdHBdZd4XnjeJ'
-                  },
-                  data: {
-                      class : $('#classSelectors').val(),
-                      grouped : false
-                  },
-                  //success logic creates table in html, can parse return the full table html or do we need to make it
-                  //with specific values from a returned array?
-                   success: function(resultsArray) {
-                    $scope.members = resultsArray;
-                  }*/
-
         //initialize a new group object on the scope for the new group form
         $scope.newGroup = '';
        // $scope.newGroup.members = '';
@@ -173,7 +152,33 @@ angular.module('PeerReviewApp', [])
             $("#groupMembersGrid input:checkbox:checked").each(function(){ checkedArray.push(" " + this.className); });
             console.log(checkedArray);
             //for number of checked, put into array
-            $scope.newGroup.members = checkedArray.toString();
+            $scope.newGroup.members = checkedArray;
+            $scope.newGroup.ratings = [
+                {
+                    rater: "Morya",
+                    ratee: "Jacob",
+                    comment: "Cool guy.",
+                    rating: 5
+                },
+                {
+                    rater: "Jacob",
+                    ratee: "Morya",
+                    comment: "Hard worker",
+                    rating: 4
+                },
+                {
+                    rater: "Jacob",
+                    ratee: "Sean",
+                    comment: "Total brooooo",
+                    rating: 5
+                },
+                {
+                    rater: "Sean",
+                    ratee: "Morya",
+                    comment: "Chill",
+                    rating: 4
+                }
+            ];
             $http.post(groupsURL, group)
                 .success(function(responseData) {
                     //Parse will return the new objectId in the response data
