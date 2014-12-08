@@ -25,14 +25,16 @@
                 <div ng-show="exists(project.group) && project.expand">
                     <p>There are no group members assigned yet.</p>
                 </div>
-                <div id='members' ng-repeat="member in project.group" class="row cards" ng-show="project.expand">
-                    <p class="col-md-2">{{member.name}}</p>
-                    <p class="col-md-2">Rating:
-                        <rating id="rating" max="5" ng-model="member.newRating"></rating>
-                    </p>
-                    <textarea rows="1" cols="5" placeholder="Comments..." class="col-md-6"></textarea>
-                    <button id="review-submission" class="btn btn-primary col-md-1">Submit Review</button>
-                </div>
+                <form name="memberForm" id='members' ng-repeat="member in project.group" class="row cards" ng-show="project.expand" novalidate>
+                    <div class="form-group">
+                        <p class="col-md-2">{{member.name}}</p>
+                        <p class="col-md-2">Rating:
+                            <rating id="rating" max="5" ng-model="member.newRating" required></rating>
+                        </p>
+                        <textarea rows="1" cols="5" placeholder="Comments..." class="col-md-6" required ng-pattern="\S+"></textarea>
+                        <button id="review-submission" class="btn btn-primary col-md-1" ng-disabled="memberForm.$invalid">Submit Review</button>
+                    </div>
+                </form>
                 <div></div>
             </div>
         </div>
