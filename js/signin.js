@@ -55,10 +55,10 @@ function onSubmit(eventObject) {
                 else {
                     console.log('valid user');
                     if (matchedUser.role == 'student') {
-                        console.log('redirect to student page');
+                        window.location.replace('students.html');
                     }
                     else if (matchedUser.role == 'instructor') {
-                        window.location.replace('instructor.html')
+                        window.location.replace('instructor.html');
                     }
                 }
             },
